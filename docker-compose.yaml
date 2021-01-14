@@ -14,6 +14,7 @@ services:
      - zookeeper
     environment:
      - ZOOKEEPER_CONNECT=zookeeper:2181
+  # Debezium's original Postgres image.
   #postgres:
     #image: debezium/example-postgres:${DEBEZIUM_VERSION}
     #ports:
@@ -31,6 +32,7 @@ services:
     command: postgres -c config_file=/etc/postgresql.conf
     volumes:
       - ./postgresql.conf:/etc/postgresql.conf
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
   connect:
     image: debezium/connect:${DEBEZIUM_VERSION}
     ports:
@@ -44,3 +46,15 @@ services:
      - CONFIG_STORAGE_TOPIC=my_connect_configs
      - OFFSET_STORAGE_TOPIC=my_connect_offsets
      - STATUS_STORAGE_TOPIC=my_connect_statuses
+  node-kafka:
+    build:
+      context: ./node
+      dockerfile: Dockerfile # Relative to context path.
+    links:
+    - kafka
+  go-kafka:
+    build:
+      context: ./go
+      dockerfile: Dockerfile # Relative to context path.
+    links:
+    - kafka

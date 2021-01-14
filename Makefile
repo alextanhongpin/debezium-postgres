@@ -1,6 +1,12 @@
 export
 DEBEZIUM_VERSION=1.4
 
+build-go:
+	@docker build -f Dockerfile.go -t go-kafka .
+
+build-node:
+	@docker build -t node-kafka .
+
 up:
 	@docker-compose up -d
 

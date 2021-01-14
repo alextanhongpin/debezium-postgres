@@ -1,0 +1,12 @@
+{
+  "name": "debezium-postgres",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/alextanhongpin/debezium-postgres.git",
+  "author": "alextanhongpin <alextan220990@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "kafkajs": "^1.15.0"
+  },
+  "type": "module"
+}
