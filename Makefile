@@ -13,7 +13,7 @@ step_1:
 
 # 2. Consume messages from a Debezium topic.
 step_2:
-	@docker-compose exec kafka /kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --from-beginning --property print.key=true --topic inventory.events
+	@docker-compose exec kafka /kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --from-beginning --property print.key=true --topic outbox.event.customer
 
 # 3. Modify records in the database via Postgres client.
 step_3:

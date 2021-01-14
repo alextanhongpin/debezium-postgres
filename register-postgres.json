@@ -1,6 +1,7 @@
 {
-    "name": "inventory-connector",
+    "name": "outbox-connector",
     "config": {
+        "plugin.name": "pgoutput",
         "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
         "tasks.max": "1",
         "database.hostname": "postgres",
@@ -9,12 +10,14 @@
         "database.password": "postgres",
         "database.dbname" : "postgres",
         "database.server.name": "dbserver1",
-        "schema.whitelist": "inventory",
-        "table.whitelist" : "inventory.outboxevent",
+        "schema.include.list": "public",
+        "table.include.list" : "public.outbox",
         "tombstones.on.delete" : "false",
         "transforms" : "outbox",
         "transforms.outbox.type" : "io.debezium.transforms.outbox.EventRouter",
-        "transforms.outbox.route.topic.replacement": "inventory.events",
-        "transforms.outbox.table.fields.additional.placement": "aggregateid:envelope:id"
+        "transforms.outbox.route.by.field": "aggregatetype",
+        "transforms.outbox.route.topic.replacement": "outbox.event.${routedByValue}",
+        "transforms.outbox.table.fields.additional.placement": "aggregateid:envelope:id",
+        "publication.autocreate.mode": "filtered"
     }
 }

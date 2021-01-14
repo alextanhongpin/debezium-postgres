@@ -14,13 +14,23 @@ services:
      - zookeeper
     environment:
      - ZOOKEEPER_CONNECT=zookeeper:2181
+  #postgres:
+    #image: debezium/example-postgres:${DEBEZIUM_VERSION}
+    #ports:
+     #- 5432:5432
+    #environment:
+     #- POSTGRES_USER=postgres
+     #- POSTGRES_PASSWORD=postgres
   postgres:
-    image: debezium/example-postgres:${DEBEZIUM_VERSION}
+    image: postgres:13.1-alpine
     ports:
      - 5432:5432
     environment:
-     - POSTGRES_USER=postgres
-     - POSTGRES_PASSWORD=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    command: postgres -c config_file=/etc/postgresql.conf
+    volumes:
+      - ./postgresql.conf:/etc/postgresql.conf
   connect:
     image: debezium/connect:${DEBEZIUM_VERSION}
     ports:
