@@ -18,11 +18,18 @@ CREATE TABLE IF NOT EXISTS outbox (
 
 INSERT INTO outbox(aggregatetype, aggregateid, type, payload)
 VALUES ('customer', 'customer-1', 'customer-created', '{}');
+-- We can perform delete straight away, as the delete event will not be propagated.
 ```
 
 3. Register the Postgres connector with `make step_1`. If the table does not exists, this will not work.
 4. Consume messages from the Debezium topic `make step_2`
 5. Perform operation by inserting values into the outbox table.
+
+## Avoiding deduplication
+
+We can alternatively store an incrementing sequence number, but it will not work if each microservice has their own sequence.
+
+We can cache the id of the event that has been processed at the consumer. When there is a replay, the server can always check of the id exists.
 
 
 ## Kafka Container
