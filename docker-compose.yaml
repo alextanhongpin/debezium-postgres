@@ -10,10 +10,15 @@ services:
     image: debezium/kafka:${DEBEZIUM_VERSION}
     ports:
      - 9092:9092
+     - 9093:9093 # Expose port 9093 for non-docker application to connect.
     links:
      - zookeeper
     environment:
      - ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+     # Configure port 9093 to allow non-docker application to connect.
+     # Port 9092 is not visible outside the container.
+     - ./kafka/docker-entrypoint.sh:/docker-entrypoint.sh
   # Debezium's original Postgres image.
   #postgres:
     #image: debezium/example-postgres:${DEBEZIUM_VERSION}
@@ -46,15 +51,15 @@ services:
      - CONFIG_STORAGE_TOPIC=my_connect_configs
      - OFFSET_STORAGE_TOPIC=my_connect_offsets
      - STATUS_STORAGE_TOPIC=my_connect_statuses
-  node-kafka:
-    build:
-      context: ./node
-      dockerfile: Dockerfile # Relative to context path.
-    links:
-    - kafka
-  go-kafka:
-    build:
-      context: ./go
-      dockerfile: Dockerfile # Relative to context path.
-    links:
-    - kafka
+  #node-kafka:
+    #build:
+      #context: ./node
+      #dockerfile: Dockerfile # Relative to context path.
+    #links:
+    #- kafka
+  #go-kafka:
+    #build:
+      #context: ./go
+      #dockerfile: Dockerfile # Relative to context path.
+    #links:
+    #- kafka

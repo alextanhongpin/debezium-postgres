@@ -25,6 +25,10 @@ VALUES ('customer', 'customer-1', 'customer-created', '{}');
 5. Perform operation by inserting values into the outbox table.
 
 
+## Kafka Container
+
+The kafka image is using the Debezium's Kafka image, but with customization on the `docker-entrypoint.sh` to allow non-docker applications to connect to kafka running in docker. The original `docker-entrypoint.sh` is [here](https://github.com/debezium/docker-images/blob/master/kafka/1.4/docker-entrypoint.sh).
+
 ## Kafka Topic Name
 
 By default, the topic name for the events depends on the `aggregatetype`, so if the aggregate type is `customer`, the event will be published to `outbox.event.customer`.

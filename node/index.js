@@ -5,7 +5,9 @@ const topic = "outbox.event.customer";
 // some configuration in the debezium kafka.
 const kafka = new Kafka({
   clientId: "my-app",
-  brokers: ["kafka:9092"]
+  // When running in docker image.
+  //brokers: ["kafka:9092"]
+  brokers: ["localhost:9093"]
 });
 console.log("subscribed to topic:", topic);
 
